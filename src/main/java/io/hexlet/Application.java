@@ -19,12 +19,39 @@ public class Application {
                 statement2.executeUpdate(sql2);
             }
 
+            var sql2_1 = "INSERT INTO users (username, phone) VALUES (?, ?)";
+            try (var preparedStatement = conn.prepareStatement(sql2_1)) {
+                preparedStatement.setString(1, "Alex");
+                preparedStatement.setString(2, "012-012-012");
+                preparedStatement.executeUpdate();
+
+                preparedStatement.setString(1, "Noga");
+                preparedStatement.setString(2, "012-012-012");
+                preparedStatement.executeUpdate();
+
+                preparedStatement.setString(1, "Steve");
+                preparedStatement.setString(2, "012-012-012");
+                preparedStatement.executeUpdate();
+
+                preparedStatement.setString(1, "Mirmir");
+                preparedStatement.setString(2, "012-012-012");
+                preparedStatement.executeUpdate();
+            }
+
+            var sql2_2 = "DELETE FROM users WHERE username = ?";
+            try (var preparedStatement = conn.prepareStatement(sql2_2)) {
+                preparedStatement.setString(1, "Mirmir");
+                preparedStatement.executeUpdate();
+            }
+
             var sql3 = "SELECT * FROM users";
             try (var statement3 = conn.createStatement()) {
                 var resultSet = statement3.executeQuery(sql3);
                 while (resultSet.next()) {
-                    var getName = resultSet.getString("username");
-                    System.out.print(getName);
+                    System.out.printf("%s %s\n",
+                            resultSet.getString("username"),
+                            resultSet.getString("phone")
+                    );
                 }
             }
         }
